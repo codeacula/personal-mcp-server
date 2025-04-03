@@ -15,6 +15,10 @@
         "env": {
           "GITHUB_PERSONAL_ACCESS_TOKEN": "${github-pat}"
         }
+      },
+      "my-helper": {
+        "command": "python",
+        "args": ["C:\\Projects\\personal-mcp-server\\src\\server\\main.py"]
       }
     }
   }
