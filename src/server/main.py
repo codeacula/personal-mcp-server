@@ -1,30 +1,19 @@
-from fastapi import FastAPI, HTTPException
-from fastapi.responses import JSONResponse
-from src.server.handlers import handle_request, handle_data_request
-from pydantic import BaseModel
+import sys
+import os
 
-app = FastAPI()
+# Add the 'src' directory to the Python path
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 
-class RequestBody(BaseModel):
-    type: str
-    body: dict = None
+from mcp.server.fastmcp import FastMCP
 
-@app.post("/api")
-async def api(body: RequestBody):
-    try:
-        response = handle_request(body.type, body.body)
-        return response
-    except HTTPException as e:
-        return JSONResponse(content={"message": e.detail}, status_code=e.status_code)
-    except Exception as e:
-        return JSONResponse(content={"message": str(e)}, status_code=500)
+mcp = FastMCP()
 
-@app.post("/data")
-async def data_endpoint(data: DataRequest):
-    try:
-        response = handle_data_request(data)
-        return response
-    except HTTPException as e:
-        return JSONResponse(content={"message": e.detail}, status_code=e.status_code)
-    except Exception as e:
-        return JSONResponse(content={"message": str(e)}, status_code=500)
+@mcp.tool()
+def ping() -> str:
+    """Ping the server."""
+    return "pong"
+
+
+if __name__ == "__main__":
+    mcp.run()
+

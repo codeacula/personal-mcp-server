@@ -11,7 +11,9 @@ setup(
     install_requires=[
         'fastapi',
         'uvicorn',
+        'mcp[cli]',
         'pydantic',
+        'modelcontextprotocol',
         'requests==2.26.0',
         'pytest==6.2.5',
     ],

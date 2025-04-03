@@ -1,6 +1,22 @@
 from src.server.command_handlers.ping_handler import handle_ping
 from fastapi import HTTPException
 from pydantic import BaseModel
+import httpx
+from mcp.server.fastmcp import FastMCP
+from mcp.types import TextContent
+
+mcp = FastMCP()
+
+@mcp.tool()
+async def fetch_website(url: str) -> list[TextContent]:
+    """Fetches a website and returns its content."""
+    headers = {
+        "User-Agent": "MCP Test Server (github.com/modelcontextprotocol/python-sdk)"
+    }
+    async with httpx.AsyncClient(follow_redirects=True, headers=headers) as client:
+        response = await client.get(url)
+        response.raise_for_status()
+        return [TextContent(type="text", text=response.text)]
 
 # Define Pydantic models for request bodies
 class GreetRequest(BaseModel):

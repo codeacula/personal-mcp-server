@@ -1,5 +1,7 @@
 fastapi
 uvicorn
 pydantic
-requests==2.26.0
+mcp[cli]
+modelcontextprotocol
+requests
 pytest==6.2.5
