@@ -29,12 +29,14 @@ mcp-server
 To set up the MCP server, follow these steps:
 
 1. Clone the repository:
+
    ```
    git clone https://github.com/yourusername/mcp-server.git
    cd mcp-server
    ```
 
 2. Install the required dependencies:
+
    ```
    pip install -r requirements.txt
    ```

@@ -1,22 +1,24 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='mcp-server',
-    version='0.1.0',
-    author='Your Name',
-    author_email='your.email@example.com',
-    description='A minimal MCP server implementation',
+    name='codeaculas-personal-mcp-server',
+    version='1.0.0',
+    author='Codeacula',
+    author_email='codeacula@codeacula.com',
+    description='An MCP server that implements tasks useful for Codeacula',
     packages=find_packages(where='src'),
     package_dir={'': 'src'},
     install_requires=[
-        # List your project dependencies here
-        # e.g., 'Flask>=1.1.2',
-        # 'FastAPI>=0.63.0',
+        'fastapi',
+        'uvicorn',
+        'pydantic',
+        'requests==2.26.0',
+        'pytest==6.2.5',
     ],
     classifiers=[
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
     ],
-    python_requires='>=3.6',
+    python_requires='>=3.13',
 )

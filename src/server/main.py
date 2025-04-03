@@ -1,13 +1,30 @@
-from flask import Flask, request, jsonify
-from .handlers import handle_request
+from fastapi import FastAPI, HTTPException
+from fastapi.responses import JSONResponse
+from src.server.handlers import handle_request, handle_data_request
+from pydantic import BaseModel
 
-app = Flask(__name__)
+app = FastAPI()
 
-@app.route('/api', methods=['POST'])
-def api():
-    data = request.json
-    response = handle_request(data)
-    return jsonify(response)
+class RequestBody(BaseModel):
+    type: str
+    body: dict = None
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+@app.post("/api")
+async def api(body: RequestBody):
+    try:
+        response = handle_request(body.type, body.body)
+        return response
+    except HTTPException as e:
+        return JSONResponse(content={"message": e.detail}, status_code=e.status_code)
+    except Exception as e:
+        return JSONResponse(content={"message": str(e)}, status_code=500)
+
+@app.post("/data")
+async def data_endpoint(data: DataRequest):
+    try:
+        response = handle_data_request(data)
+        return response
+    except HTTPException as e:
+        return JSONResponse(content={"message": e.detail}, status_code=e.status_code)
+    except Exception as e:
+        return JSONResponse(content={"message": str(e)}, status_code=500)
